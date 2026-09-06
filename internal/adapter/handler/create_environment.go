@@ -9,16 +9,17 @@ import (
 	"github.com/white-flag/internal/infrastructure/logger"
 )
 
-func (h *Handler) CreateAppVersion(c *gin.Context) {
+func (h *Handler) CreateEnvironment(c *gin.Context) {
 	appID := c.Param("id")
-	var req dto.CreateAppVersionRequest
+
+	var req dto.CreateEnvironmentRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		logger.Error(c, "invalid request", err)
 		c.JSON(http.StatusBadRequest, response.ValidationError(err))
 		return
 	}
 
-	usecaseErr := h.AppVersionUsecase.Create(c, appID, req.Version)
+	usecaseErr := h.EnvironmentUsecase.Create(c, appID, req.Name)
 	if usecaseErr != nil {
 		c.JSON(http.StatusInternalServerError, response.ErrorResponse{
 			Code:        usecaseErr.Code,
@@ -28,6 +29,6 @@ func (h *Handler) CreateAppVersion(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, response.SuccessResponse{
-		Message: "app created successfully",
+		Message: "environment created successfully",
 	})
 }
