@@ -10,6 +10,7 @@ import (
 	"github.com/white-flag/internal/usecase/app"
 	"github.com/white-flag/internal/usecase/appversion"
 	"github.com/white-flag/internal/usecase/environment"
+	featureflag "github.com/white-flag/internal/usecase/feature_flag"
 )
 
 type Application struct {
@@ -35,16 +36,19 @@ func NewApplication() (*Application, error) {
 	appRepository := repository.NewAppRepository(db.DB)
 	appVersionRepository := repository.NewAppVersionRepository(db.DB)
 	environmentRepository := repository.NewEnvironmentRepository(db.DB)
+	featureFlagRepository := repository.NewFeatureFlagRepository(db.DB)
 
 	appUseCase := app.NewAppUsecase(appRepository)
 	appVersionUseCase := appversion.NewAppVersionUsecase(appVersionRepository)
 	environmentUseCase := environment.NewEnvironmentUsecase(environmentRepository)
+	featureFlagUseCase := featureflag.NewFeatureFlagUsecase(featureFlagRepository)
 
 	Handler := handler.NewHandler(
 		config,
 		appUseCase,
 		appVersionUseCase,
 		environmentUseCase,
+		featureFlagUseCase,
 	)
 
 	server := server.NewServer(config, Handler)

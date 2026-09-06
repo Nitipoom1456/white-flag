@@ -33,10 +33,15 @@ func (r *Router) SetupRoutes(handler *handler.Handler) {
 	apps.GET("/:id/versions", handler.GetAppVersionByAppID)
 	apps.GET("/:id/environments", handler.GetEnvironmentByAppID)
 	apps.POST("/:id/environments", handler.CreateEnvironment)
+	// apps.GET("/:id/environments/:environment_id/flags", handler.GetFeatureFlagsByEnvironmentID)
 
 	appVersions := v1.Group("app-versions")
 	appVersions.DELETE("/:id", handler.DeleteAppVersion)
 
 	environments := v1.Group("environments")
 	environments.DELETE("/:id", handler.DeleteEnvironment)
+
+	featureFlags := v1.Group("flags")
+	featureFlags.POST("", handler.CreateFeatureFlag)
+
 }
