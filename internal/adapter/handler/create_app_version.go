@@ -10,6 +10,7 @@ import (
 )
 
 func (h *Handler) CreateAppVersion(c *gin.Context) {
+	appID := c.Param("id")
 	var req dto.CreateAppVersionRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		logger.Error(c, "invalid request", err)
@@ -17,7 +18,7 @@ func (h *Handler) CreateAppVersion(c *gin.Context) {
 		return
 	}
 
-	usecaseErr := h.AppVersionUsecase.Create(c, req.AppID, req.Version)
+	usecaseErr := h.AppVersionUsecase.Create(c, appID, req.Version)
 	if usecaseErr != nil {
 		c.JSON(http.StatusInternalServerError, response.ValidateErrorResponse{
 			Code:        usecaseErr.Code,

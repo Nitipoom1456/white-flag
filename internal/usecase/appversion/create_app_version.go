@@ -20,7 +20,7 @@ func (u *Usecase) Create(ctx context.Context, appID, version string) *usecase.Us
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
 			logger.Error(ctx, "App version already exists", err, logger.F("version", version))
 			return &usecase.UsecaseError{
-				Message: usecase.MSG_APP_DUPLICATED_KEY,
+				Message: usecase.MSG_APP_VERSION_DUPLICATED_KEY,
 				Code:    usecase.CODE_DUPLICATED_KEY,
 				Err:     err,
 			}

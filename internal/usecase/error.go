@@ -14,4 +14,6 @@ const (
 	MSG_INVALID_INPUT      = "invalid input"
 	MSG_SERVER_ERROR       = "server error"
 	MSG_APP_DUPLICATED_KEY = "app is already registered"
+
+	MSG_APP_VERSION_DUPLICATED_KEY = "app version is already exist"
 )

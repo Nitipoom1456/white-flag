@@ -29,4 +29,7 @@ func (r *Router) SetupRoutes(handler *handler.Handler) {
 	apps := v1.Group("apps")
 	apps.POST("", handler.CreateApp)
 	apps.GET("", handler.ListApps)
+	apps.POST("/:id/versions", handler.CreateAppVersion)
+	apps.GET("/:id/versions", handler.GetAppVersionByAppID)
+
 }

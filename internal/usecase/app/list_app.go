@@ -14,7 +14,7 @@ type App struct {
 }
 
 func (u *Usecase) List(ctx context.Context, page, pageSize int) ([]App, int, *usecase.UsecaseError) {
-	offset := page - 1
+	offset := (page - 1) * pageSize
 	limit := pageSize
 	apps, total, err := u.AppRepository.List(ctx, offset, limit)
 	if err != nil {

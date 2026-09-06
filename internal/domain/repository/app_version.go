@@ -3,12 +3,15 @@ package repository
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	"github.com/white-flag/internal/domain/entity"
 	"gorm.io/gorm"
 )
 
 type AppVersionRepository interface {
 	Create(ctx context.Context, appVersion entity.AppVersion) error
+	FindByAppID(ctx context.Context, appID uuid.UUID, offset, limit int) ([]entity.AppVersion, int64, error)
 }
 
 type AppVersion struct {
@@ -21,4 +24,18 @@ func NewAppVersionRepository(db *gorm.DB) AppVersionRepository {
 
 func (a *AppVersion) Create(ctx context.Context, appVersion entity.AppVersion) error {
 	return a.DB.WithContext(ctx).Create(&appVersion).Error
+}
+
+func (a *AppVersion) FindByAppID(ctx context.Context, appID uuid.UUID, offset, limit int) ([]entity.AppVersion, int64, error) {
+	var appVersions []entity.AppVersion
+	if err := a.DB.WithContext(ctx).Where("app_id = ?", appID).Offset(offset).Limit(limit).Find(&appVersions).Error; err != nil {
+		return nil, 0, err
+	}
+
+	var total int64
+	if err := a.DB.WithContext(ctx).Model(&entity.AppVersion{}).Where("app_id = ?", appID).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	return appVersions, total, nil
 }

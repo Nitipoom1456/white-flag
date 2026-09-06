@@ -20,3 +20,6 @@ fmt:
 
 run:
 	go run cmd/main/main.go
+
+lint:
+	go fmt ./...

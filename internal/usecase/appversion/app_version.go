@@ -9,6 +9,7 @@ import (
 
 type AppVersionUsecase interface {
 	Create(ctx context.Context, appID, version string) *usecase.UsecaseError
+	GetByAppID(ctx context.Context, appID string, page, pageSize int) ([]AppVersion, int, *usecase.UsecaseError)
 }
 
 type Usecase struct {
