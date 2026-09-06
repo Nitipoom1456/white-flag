@@ -12,6 +12,7 @@ import (
 type AppVersionRepository interface {
 	Create(ctx context.Context, appVersion entity.AppVersion) error
 	FindByAppID(ctx context.Context, appID uuid.UUID, offset, limit int) ([]entity.AppVersion, int64, error)
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 type AppVersion struct {
@@ -38,4 +39,8 @@ func (a *AppVersion) FindByAppID(ctx context.Context, appID uuid.UUID, offset, l
 	}
 
 	return appVersions, total, nil
+}
+
+func (a *AppVersion) Delete(ctx context.Context, id uuid.UUID) error {
+	return a.DB.WithContext(ctx).Delete(&entity.AppVersion{ID: id}).Error
 }

@@ -32,4 +32,7 @@ func (r *Router) SetupRoutes(handler *handler.Handler) {
 	apps.POST("/:id/versions", handler.CreateAppVersion)
 	apps.GET("/:id/versions", handler.GetAppVersionByAppID)
 
+	appVersions := v1.Group("app-versions")
+	appVersions.DELETE("/:id", handler.DeleteAppVersion)
+
 }
