@@ -1,9 +1,9 @@
 package usecase
 
 type UsecaseError struct {
-	Message string
-	Code    string
 	Err     error
+	Code    string
+	Message string
 }
 
 const (
